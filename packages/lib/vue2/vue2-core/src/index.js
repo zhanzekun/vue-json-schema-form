@@ -75,6 +75,7 @@ export default function createForm(globalOptions = {}) {
                 this.willReceiveProps(newVal, oldVal);
             },
             value(newVal, oldVal) {
+                console.log('core-src-index.js, value', newVal, oldVal)
                 this.willReceiveProps(newVal, oldVal);
             }
         },
@@ -113,7 +114,7 @@ export default function createForm(globalOptions = {}) {
             const defaultSlot = this.$scopedSlots.default
                 ? this.$scopedSlots.default({
                     formData: self.formData,
-                    formRefFn: () => self.$refs.genEditForm
+                    formRefFn: () => self.$refs.genEditForm // 这个是啥
                 })
                 : this.footerParams.show
                     ? h(FormFooter, {

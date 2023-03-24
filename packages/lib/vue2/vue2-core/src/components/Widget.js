@@ -331,6 +331,7 @@ export default {
                             },
                             input(event) {
                                 const formatValue = self.formatValue(event);
+                                console.log('core-src-component-widgets,formatValue', formatValue)
                                 // 默认用户输入变了都是需要更新form数据保持同步，唯一特例 input number
                                 // 为了兼容 number 小数点后0结尾的数据场景
                                 // 比如 1. 1.010 这类特殊数据输入是不需要触发 新值的设置，否则会导致schema校验为非数字

@@ -1,21 +1,12 @@
 <template>
-    <div
-        v-if="true"
-        class="demo-wrapper"
-    >
-        <VueElementForm
-            v-model="formData"
-            strict-mode
-            class="demo-form-box"
-            :schema="schema"
-            @on-submit="handleSubmit"
-        >
+    <div v-if="true" class="demo-wrapper">
+        <VueElementForm v-model="formData" strict-mode class="demo-form-box" :schema="schema" @on-submit="handleSubmit">
         </VueElementForm>
     </div>
 </template>
 
 <script>
-import VueElementForm from '@lljj/vue-json-schema-form/src/index';
+import VueElementForm from '@lljj/vue-json-schema-form';
 
 export default {
     components: {
@@ -112,15 +103,16 @@ export default {
 
 
 <style scoped>
-    .demo-wrapper {
-        z-index: 1000;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background: #FFFFFF;
-    }
-    .demo-form-box {
-        margin: 0 auto;
-        width: 600px;
-    }
+.demo-wrapper {
+    z-index: 1000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #FFFFFF;
+}
+
+.demo-form-box {
+    margin: 0 auto;
+    width: 600px;
+}
 </style>

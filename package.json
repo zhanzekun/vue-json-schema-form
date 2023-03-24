@@ -17,6 +17,8 @@
         "lib-element:build": "yarn workspace @lljj/vue-json-schema-form build",
         "lib-iview3:watch": "yarn workspace @lljj/vue2-form-iview3 watch",
         "lib-iview3:build": "yarn workspace @lljj/vue2-form-iview3 build",
+        "lib-antdv:watch": "yarn workspace @zekun/vue2-form-antdv watch",
+        "lib-antdv:build": "yarn workspace @zekun/vue2-form-antdv build",
         "lib3-element:watch": "yarn workspace @lljj/vue3-form-element watch",
         "lib3-element:build": "yarn workspace @lljj/vue3-form-element build",
         "lib3-ant:watch": "yarn workspace @lljj/vue3-form-ant watch",

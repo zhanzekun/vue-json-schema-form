@@ -12,6 +12,14 @@ const routes = [
         component: () => import('./views/Demo/index'),
     },
     {
+        path: '/zekun',
+        name: 'zekun',
+        meta: {
+            title: 'Zekun'
+        },
+        component: () => import('./views/ZekunDemo/index'),
+    },
+    {
         path: '*',
         hidden: true,
         redirect: {
