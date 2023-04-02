@@ -1,13 +1,6 @@
 <template>
-    <i-select
-        v-bind="$attrs"
-        v-on="$listeners"
-    >
-        <i-option
-            v-for="(item, index) in enumOptions"
-            :key="index"
-            :value="item.value"
-        >
+    <i-select v-bind="$attrs" v-on="$listeners">
+        <i-option v-for="(item, index) in enumOptions" :key="index" :value="item.value">
             {{ item.label }}
         </i-option>
     </i-select>
@@ -21,6 +14,6 @@ export default {
             default: () => [],
             type: [Array]
         }
-    }
+    },
 };
 </script>

@@ -7,7 +7,11 @@
 import widgetComponents from './index.js';
 
 const {
-    InputWidget
+    InputWidget,
+    InputNumberWidget,
+    SwitchWidget,
+    SelectWidget,
+    DatePickerWidget
 } = widgetComponents;
 
 const temp = {
@@ -18,21 +22,21 @@ const temp = {
 
 export default {
     types: {
-        boolean: 'a-switch',
+        boolean: SwitchWidget,
         string: InputWidget,
-        number: 'a-input-number',
+        number: InputNumberWidget, // 这里有个问题就是，Widget还需要知道当前是哪种number，是整数还是小数
         integer: 'a-input-number',
     },
     formats: {
         color: temp, // antdv1.x没有colorPicker这个组件
         time: temp, // 20:20:39+00:00
-        date: temp, // 2018-11-13
+        date: DatePickerWidget, // 2018-11-13
         'date-time': temp, // 2018-11-13T20:20:39+00:00
     },
     common: {
-        select: temp,
+        select: SelectWidget,
         radioGroup: temp,
         checkboxGroup: temp,
     },
-    // widgetComponents
+    widgetComponents
 };

@@ -11872,17 +11872,277 @@
     }
   };
 
+  var InputNumberWidget = {
+    name: 'InputNumberWidget',
+    render: function render(h) {
+      console.log('inputNUmberWidget', this);
+      var self = this;
+      return h('a-input-number', {
+        attrs: _objectSpread2({}, self.$attrs),
+        on: _objectSpread2(_objectSpread2({}, self.$listeners), {}, {
+          change: function change(val) {
+            self.$emit('input', val);
+          }
+        })
+      });
+    }
+  };
+
+  //
+  //
+  //
+  //
+  //
+  var script$1 = {
+    name: 'SwitchWidget',
+    props: {
+      value: {
+        type: Boolean,
+        default: false
+      }
+    },
+    methods: {
+      onChange: function onChange(value) {
+        this.$emit('input', value);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$1 = script$1;
+  /* template */
+
+  var __vue_render__$6 = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-switch", {
+      attrs: {
+        checked: _vm.value
+      },
+      on: {
+        change: _vm.onChange
+      }
+    });
+  };
+
+  var __vue_staticRenderFns__$6 = [];
+  __vue_render__$6._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$6 = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$6 = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$6 = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$6 = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$6 = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$6,
+    staticRenderFns: __vue_staticRenderFns__$6
+  }, __vue_inject_styles__$6, __vue_script__$1, __vue_scope_id__$6, __vue_is_functional_template__$6, __vue_module_identifier__$6, false, undefined, undefined, undefined);
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  var script$2 = {
+    name: 'SelectWidget',
+    props: {
+      enumOptions: {
+        default: function _default() {
+          return [];
+        },
+        type: [Array]
+      }
+    },
+    computed: {
+      mode: function mode() {
+        return this.$attrs.multiple ? 'tags' : null;
+      }
+    },
+    methods: {
+      onChange: function onChange(val) {
+        console.log('select widget onchange val', val);
+        this.$emit('input', val);
+      }
+    },
+    mounted: function mounted() {
+      console.log('select widget mounted', this.$props, this.$attrs);
+    }
+  };
+
+  /* script */
+  var __vue_script__$2 = script$2;
+  /* template */
+
+  var __vue_render__$7 = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-select", _vm._g(_vm._b({
+      attrs: {
+        mode: _vm.mode
+      },
+      on: {
+        change: _vm.onChange
+      }
+    }, "a-select", _vm.$attrs, false), _vm.$listeners), _vm._l(_vm.enumOptions, function (item, index) {
+      return _c("a-select-option", {
+        key: index,
+        attrs: {
+          value: item.value
+        }
+      }, [_vm._v("\n        " + _vm._s(item.label) + "\n    ")]);
+    }), 1);
+  };
+
+  var __vue_staticRenderFns__$7 = [];
+  __vue_render__$7._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$7 = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$7 = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$7 = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$7 = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$7 = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$7,
+    staticRenderFns: __vue_staticRenderFns__$7
+  }, __vue_inject_styles__$7, __vue_script__$2, __vue_scope_id__$7, __vue_is_functional_template__$7, __vue_module_identifier__$7, false, undefined, undefined, undefined);
+
+  //
+  //
+  //
+  //
+  var script$3 = {
+    name: 'DatePickerWidget',
+    // render(h) {
+    //     // const { isNumberValue, isRange, ...otherProps } = context.data.attrs || {};
+    //     const { isNumberValue, isRange, ...otherProps } = this.$attrs || {};
+    //     context.data.attrs = {
+    //         type: isRange ? 'datetimerange' : 'datetime',
+    //         ...otherProps
+    //     };
+    //     // 字符串为 0 时区ISO标准时间
+    //     const oldInputCall = context.data.on.input;
+    //     context.data.on = {
+    //         ...context.data.on,
+    //         input(val) {
+    //             let trueVal;
+    //             if (isRange) {
+    //                 trueVal = (val === null) ? [] : val.map(item => (new Date(item))[isNumberValue ? 'valueOf' : 'toISOString']());
+    //             } else {
+    //                 trueVal = (val === null) ? undefined : (new Date(val))[isNumberValue ? 'valueOf' : 'toISOString']();
+    //             }
+    //             oldInputCall.apply(context.data.on, [trueVal]);
+    //         }
+    //     };
+    //     return h('el-date-picker', context.data, context.children);
+    // }
+    methods: {
+      onOk: function onOk(val) {
+        console.log('date picker ok', val);
+        this.$emit('input', val);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$3 = script$3;
+  /* template */
+
+  var __vue_render__$8 = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-date-picker", {
+      attrs: {
+        placeholder: "Select Time"
+      },
+      on: {
+        ok: _vm.onOk
+      }
+    });
+  };
+
+  var __vue_staticRenderFns__$8 = [];
+  __vue_render__$8._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$8 = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$8 = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$8 = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$8 = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$8 = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$8,
+    staticRenderFns: __vue_staticRenderFns__$8
+  }, __vue_inject_styles__$8, __vue_script__$3, __vue_scope_id__$8, __vue_is_functional_template__$8, __vue_module_identifier__$8, false, undefined, undefined, undefined);
+
   /**
    * Created by Liu.Jun on 2020/5/17 10:41 下午.
    */
   var widgetComponents = {
-    InputWidget: InputWidget
+    InputWidget: InputWidget,
+    InputNumberWidget: InputNumberWidget,
+    SwitchWidget: __vue_component__$6,
+    SelectWidget: __vue_component__$7,
+    DatePickerWidget: __vue_component__$8
   };
 
   /**
    * Created by Liu.Jun on 2020/4/21 18:23.
    */
-  var InputWidget$1 = widgetComponents.InputWidget;
+  var InputWidget$1 = widgetComponents.InputWidget,
+      InputNumberWidget$1 = widgetComponents.InputNumberWidget,
+      SwitchWidget = widgetComponents.SwitchWidget,
+      SelectWidget = widgetComponents.SelectWidget,
+      DatePickerWidget = widgetComponents.DatePickerWidget;
   var temp = {
     render: function render() {
       return null;
@@ -11890,9 +12150,10 @@
   };
   var WIDGET_MAP = {
     types: {
-      boolean: 'a-switch',
+      boolean: SwitchWidget,
       string: InputWidget$1,
-      number: 'a-input-number',
+      number: InputNumberWidget$1,
+      // 这里有个问题就是，Widget还需要知道当前是哪种number，是整数还是小数
       integer: 'a-input-number'
     },
     formats: {
@@ -11900,17 +12161,17 @@
       // antdv1.x没有colorPicker这个组件
       time: temp,
       // 20:20:39+00:00
-      date: temp,
+      date: DatePickerWidget,
       // 2018-11-13
       'date-time': temp // 2018-11-13T20:20:39+00:00
 
     },
     common: {
-      select: temp,
+      select: SelectWidget,
       radioGroup: temp,
       checkboxGroup: temp
-    } // widgetComponents
-
+    },
+    widgetComponents: widgetComponents
   };
 
   var css_248z$1 = "";

@@ -70,6 +70,8 @@ export default {
               "number_1679562723303x0": {
                 "title": "数字输入框",
                 "type": "number",
+                "minimum": 1,
+                maximum: 100,
                 "multipleOf": 1
               },
               // "color_string_1679562724571x0": {
@@ -77,13 +79,67 @@ export default {
               //   "type": "string",
               //   "format": "color"
               // }
+              "boolean_1679850772146x0": {
+                "title": "是否选择(Switch)",
+                "type": "boolean"
+              },
+              "string_1679858123239x0": {
+                "title": "单选(Select)",
+                "type": "string",
+                "ui:widget": "SelectWidget",
+                "enum": [
+                  "1",
+                  "2",
+                  "3"
+                ],
+                "enumNames": [
+                  "一",
+                  "二",
+                  "三"
+                ]
+              },
+              "array_1679858158579x0": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "1",
+                    "2",
+                    "3"
+                  ],
+                  "enumNames": [
+                    "一",
+                    "二",
+                    "三"
+                  ]
+                },
+                "title": "多选(Select)",
+                "ui:widget": "SelectWidget"
+              },
+              "date_number_1679862224110x0": {
+                "title": "Date(时间戳)",
+                "type": "number",
+                "format": "date",
+                "ui:options": {
+                  "placeholder": "请选择日期"
+                }
+              },
+              "date_string_1679862228052x0": {
+                "title": "Date(字符串)",
+                "type": "string",
+                "format": "date",
+                "ui:options": {
+                  "placeholder": "请选择日期"
+                }
+              }
             },
-            "ui:order": [
-              "string_1679562718519x0",
-              "number_1679562720886x0",
-              "number_1679562723303x0",
-              "color_string_1679562724571x0"
-            ]
+            // "ui:order": [
+            //   "string_1679562718519x0",
+            //   "number_1679562720886x0",
+            //   "number_1679562723303x0",
+            //   "color_string_1679562724571x0"
+            // ]
           }
         },
         "ui:order": [

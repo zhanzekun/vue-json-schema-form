@@ -132,7 +132,12 @@ export function getUserUiOptions({
         }, {})));
 }
 
-// 解析当前节点的ui options参数
+/**
+ * 解析当前节点的ui options参数
+ * 本质上，是schema的配置会生成一些默认的ui options,这些options会挂载在组件上
+ * @param {*} param0 
+ * @returns 
+ */
 export function getUiOptions({
     schema = {},
     uiSchema = {},
