@@ -1,41 +1,36 @@
 <template>
-  <a-date-picker placeholder="Select Time" @ok="onOk" />
+  <a-range-picker v-if="isRange" placeholder="Select month" @change="onRangeChagne" />
+  <a-date-picker v-else placeholder="Select Time" @ok="onChange" @change="onChange" />
 </template>
 
 <script>
+/**
+ *  这里datePickWidget其实还需要负责range的部分
+ */
 export default {
   name: 'DatePickerWidget',
-  // render(h) {
-  //     // const { isNumberValue, isRange, ...otherProps } = context.data.attrs || {};
-  //     const { isNumberValue, isRange, ...otherProps } = this.$attrs || {};
-
-  //     context.data.attrs = {
-  //         type: isRange ? 'datetimerange' : 'datetime',
-  //         ...otherProps
-  //     };
-
-  //     // 字符串为 0 时区ISO标准时间
-  //     const oldInputCall = context.data.on.input;
-  //     context.data.on = {
-  //         ...context.data.on,
-  //         input(val) {
-  //             let trueVal;
-  //             if (isRange) {
-  //                 trueVal = (val === null) ? [] : val.map(item => (new Date(item))[isNumberValue ? 'valueOf' : 'toISOString']());
-  //             } else {
-  //                 trueVal = (val === null) ? undefined : (new Date(val))[isNumberValue ? 'valueOf' : 'toISOString']();
-  //             }
-
-  //             oldInputCall.apply(context.data.on, [trueVal]);
-  //         }
-  //     };
-
-  //     return h('el-date-picker', context.data, context.children);
-  // }
+  props: {
+    isRange: {
+      type: Boolean,
+      default: false
+    },
+  },
+  mounted() {
+    console.log('DatePickerWidget mounted', this.$attrs)
+  },
   methods: {
-    onOk(val) {
-      console.log('date picker ok', val);
-      this.$emit('input', val)
+    // 这个val是个moment对象，我们根据$attr.isNumberValue来判断下要转成什么样子，number转成时间戳，string转成format形式？
+    // 同时，这个时间戳是ms还是s，可以由$attr.timeUnit来决定，允许值为's'和'ms'，默认'ms' 
+    onChange(val) {
+      const res = this.$attrs.isNumberValue ? this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(this.$attrs.format);
+      console.log('date picker change', res);
+      this.$emit('input', res)
+    },
+
+    onRangeChagne(valArr) {
+      console.log('range change', valArr)
+      const resArr = valArr.map(val => this.$attrs.isNumberValue ? this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(this.$attrs.format));
+      this.$emit('input', resArr)
     }
   }
 };

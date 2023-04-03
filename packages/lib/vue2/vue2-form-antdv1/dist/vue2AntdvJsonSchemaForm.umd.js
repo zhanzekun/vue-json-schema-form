@@ -8508,7 +8508,13 @@
         return options;
       }, {});
     }))));
-  } // 解析当前节点的ui options参数
+  }
+  /**
+   * 解析当前节点的ui options参数
+   * 本质上，是schema的配置会生成一些默认的ui options,这些options会挂载在组件上
+   * @param {*} param0 
+   * @returns 
+   */
 
   function getUiOptions(_ref5) {
     var _ref5$schema = _ref5.schema,
@@ -8554,6 +8560,7 @@
         } else {
           // 字符串 ISO 时间
           spec.isNumberValue = !(schema.type === 'string');
+          spec.timeUnit = schema.unit === 's' ? 's' : 'ms'; // 对于时间来说，时间戳默认单位ms。
         }
       }
     }
@@ -12045,35 +12052,38 @@
   //
   //
   //
+  //
+
+  /**
+   *  这里datePickWidget其实还需要负责range的部分
+   */
   var script$3 = {
     name: 'DatePickerWidget',
-    // render(h) {
-    //     // const { isNumberValue, isRange, ...otherProps } = context.data.attrs || {};
-    //     const { isNumberValue, isRange, ...otherProps } = this.$attrs || {};
-    //     context.data.attrs = {
-    //         type: isRange ? 'datetimerange' : 'datetime',
-    //         ...otherProps
-    //     };
-    //     // 字符串为 0 时区ISO标准时间
-    //     const oldInputCall = context.data.on.input;
-    //     context.data.on = {
-    //         ...context.data.on,
-    //         input(val) {
-    //             let trueVal;
-    //             if (isRange) {
-    //                 trueVal = (val === null) ? [] : val.map(item => (new Date(item))[isNumberValue ? 'valueOf' : 'toISOString']());
-    //             } else {
-    //                 trueVal = (val === null) ? undefined : (new Date(val))[isNumberValue ? 'valueOf' : 'toISOString']();
-    //             }
-    //             oldInputCall.apply(context.data.on, [trueVal]);
-    //         }
-    //     };
-    //     return h('el-date-picker', context.data, context.children);
-    // }
+    props: {
+      isRange: {
+        type: Boolean,
+        default: false
+      }
+    },
+    mounted: function mounted() {
+      console.log('DatePickerWidget mounted', this.$attrs);
+    },
     methods: {
-      onOk: function onOk(val) {
-        console.log('date picker ok', val);
-        this.$emit('input', val);
+      // 这个val是个moment对象，我们根据$attr.isNumberValue来判断下要转成什么样子，number转成时间戳，string转成format形式？
+      // 同时，这个时间戳是ms还是s，可以由$attr.timeUnit来决定，允许值为's'和'ms'，默认'ms' 
+      onChange: function onChange(val) {
+        var res = this.$attrs.isNumberValue ? this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(this.$attrs.format);
+        console.log('date picker change', res);
+        this.$emit('input', res);
+      },
+      onRangeChagne: function onRangeChagne(valArr) {
+        var _this = this;
+
+        console.log('range change', valArr);
+        var resArr = valArr.map(function (val) {
+          return _this.$attrs.isNumberValue ? _this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(_this.$attrs.format);
+        });
+        this.$emit('input', resArr);
       }
     }
   };
@@ -12089,12 +12099,20 @@
 
     var _c = _vm._self._c || _h;
 
-    return _c("a-date-picker", {
+    return _vm.isRange ? _c("a-range-picker", {
+      attrs: {
+        placeholder: "Select month"
+      },
+      on: {
+        change: _vm.onRangeChagne
+      }
+    }) : _c("a-date-picker", {
       attrs: {
         placeholder: "Select Time"
       },
       on: {
-        ok: _vm.onOk
+        ok: _vm.onChange,
+        change: _vm.onChange
       }
     });
   };
@@ -12124,6 +12142,314 @@
     staticRenderFns: __vue_staticRenderFns__$8
   }, __vue_inject_styles__$8, __vue_script__$3, __vue_scope_id__$8, __vue_is_functional_template__$8, __vue_module_identifier__$8, false, undefined, undefined, undefined);
 
+  //
+  //
+  //
+  //
+  //
+
+  /**
+   *  这里datePickWidget其实还需要负责range的部分
+   */
+  var script$4 = {
+    name: 'DateTimePickerWidget',
+    props: {
+      isRange: {
+        type: Boolean,
+        default: false
+      }
+    },
+    mounted: function mounted() {
+      console.log('DateTimePickerWidget mounted', this.$attrs);
+    },
+    methods: {
+      // 这个val是个moment对象，我们根据$attr.isNumberValue来判断下要转成什么样子，number转成时间戳，string转成format形式？
+      // 同时，这个时间戳是ms还是s，可以由$attr.timeUnit来决定，允许值为's'和'ms'，默认'ms' 
+      onChange: function onChange(val) {
+        var res = this.$attrs.isNumberValue ? this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(this.$attrs.format);
+        console.log('date picker change', res);
+        this.$emit('input', res);
+      },
+      onRangeChagne: function onRangeChagne(valArr) {
+        var _this = this;
+
+        console.log('range change', valArr);
+        var resArr = valArr.map(function (val) {
+          return _this.$attrs.isNumberValue ? _this.$attrs.timeUnit === 's' ? val.unix() : val.valueOf() : val.format(_this.$attrs.format);
+        });
+        this.$emit('input', resArr);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$4 = script$4;
+  /* template */
+
+  var __vue_render__$9 = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _vm.isRange ? _c("a-range-picker", {
+      attrs: {
+        showTime: "",
+        placeholder: "Select month"
+      },
+      on: {
+        change: _vm.onRangeChagne
+      }
+    }) : _c("a-date-picker", {
+      attrs: {
+        showTime: "",
+        placeholder: "Select Time"
+      },
+      on: {
+        ok: _vm.onChange,
+        change: _vm.onChange
+      }
+    });
+  };
+
+  var __vue_staticRenderFns__$9 = [];
+  __vue_render__$9._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$9 = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$9 = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$9 = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$9 = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$9 = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$9,
+    staticRenderFns: __vue_staticRenderFns__$9
+  }, __vue_inject_styles__$9, __vue_script__$4, __vue_scope_id__$9, __vue_is_functional_template__$9, __vue_module_identifier__$9, false, undefined, undefined, undefined);
+
+  //
+  //
+  //
+  var script$5 = {
+    name: 'TimePickerWidget',
+    methods: {
+      onChange: function onChange(val) {
+        var format = 'HH:mm:ss'; // TODO: 这里要怎么支持入参
+
+        var res = val.format(format);
+        this.$emit('input', res);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$5 = script$5;
+  /* template */
+
+  var __vue_render__$a = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-time-picker", {
+      on: {
+        change: _vm.onChange
+      }
+    });
+  };
+
+  var __vue_staticRenderFns__$a = [];
+  __vue_render__$a._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$a = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$a = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$a = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$a = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$a = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$a,
+    staticRenderFns: __vue_staticRenderFns__$a
+  }, __vue_inject_styles__$a, __vue_script__$5, __vue_scope_id__$a, __vue_is_functional_template__$a, __vue_module_identifier__$a, false, undefined, undefined, undefined);
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  var script$6 = {
+    name: 'RadioWidget',
+    props: {
+      enumOptions: {
+        default: function _default() {
+          return [];
+        },
+        type: [Array]
+      }
+    },
+    methods: {
+      onChange: function onChange(event) {
+        // console.log('radio change', val)
+        this.$emit('input', event.target.value);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$6 = script$6;
+  /* template */
+
+  var __vue_render__$b = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-radio-group", _vm._g(_vm._b({
+      on: {
+        change: _vm.onChange
+      }
+    }, "a-radio-group", _vm.$attrs, false), _vm.$listeners), _vm._l(_vm.enumOptions, function (item, index) {
+      return _c("a-radio", {
+        key: index,
+        attrs: {
+          value: item.value,
+          label: item.value
+        }
+      }, [_vm._v("\n        " + _vm._s(item.label) + "\n    ")]);
+    }), 1);
+  };
+
+  var __vue_staticRenderFns__$b = [];
+  __vue_render__$b._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$b = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$b = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$b = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$b = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$b = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$b,
+    staticRenderFns: __vue_staticRenderFns__$b
+  }, __vue_inject_styles__$b, __vue_script__$6, __vue_scope_id__$b, __vue_is_functional_template__$b, __vue_module_identifier__$b, false, undefined, undefined, undefined);
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  var script$7 = {
+    name: 'CheckboxesWidget',
+    props: {
+      enumOptions: {
+        default: function _default() {
+          return [];
+        },
+        type: [Array]
+      }
+    },
+    methods: {
+      onChange: function onChange(val) {
+        console.log('checkbox change', val);
+        this.$emit('input', val);
+      }
+    }
+  };
+
+  /* script */
+  var __vue_script__$7 = script$7;
+  /* template */
+
+  var __vue_render__$c = function __vue_render__() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c("a-checkbox-group", _vm._g(_vm._b({
+      on: {
+        change: _vm.onChange
+      }
+    }, "a-checkbox-group", _vm.$attrs, false), _vm.$listeners), _vm._l(_vm.enumOptions, function (item, index) {
+      return _c("a-checkbox", {
+        key: index,
+        attrs: {
+          value: item.value,
+          label: item.value
+        }
+      }, [_vm._v("\n        " + _vm._s(item.label) + "\n    ")]);
+    }), 1);
+  };
+
+  var __vue_staticRenderFns__$c = [];
+  __vue_render__$c._withStripped = true;
+  /* style */
+
+  var __vue_inject_styles__$c = undefined;
+  /* scoped */
+
+  var __vue_scope_id__$c = undefined;
+  /* module identifier */
+
+  var __vue_module_identifier__$c = undefined;
+  /* functional template */
+
+  var __vue_is_functional_template__$c = false;
+  /* style inject */
+
+  /* style inject SSR */
+
+  /* style inject shadow dom */
+
+  var __vue_component__$c = /*#__PURE__*/normalizeComponent_1({
+    render: __vue_render__$c,
+    staticRenderFns: __vue_staticRenderFns__$c
+  }, __vue_inject_styles__$c, __vue_script__$7, __vue_scope_id__$c, __vue_is_functional_template__$c, __vue_module_identifier__$c, false, undefined, undefined, undefined);
+
   /**
    * Created by Liu.Jun on 2020/5/17 10:41 下午.
    */
@@ -12132,7 +12458,11 @@
     InputNumberWidget: InputNumberWidget,
     SwitchWidget: __vue_component__$6,
     SelectWidget: __vue_component__$7,
-    DatePickerWidget: __vue_component__$8
+    DatePickerWidget: __vue_component__$8,
+    DateTimePickerWidget: __vue_component__$9,
+    TimePickerWidget: __vue_component__$a,
+    RadioWidget: __vue_component__$b,
+    CheckboxesWidget: __vue_component__$c
   };
 
   /**
@@ -12142,7 +12472,11 @@
       InputNumberWidget$1 = widgetComponents.InputNumberWidget,
       SwitchWidget = widgetComponents.SwitchWidget,
       SelectWidget = widgetComponents.SelectWidget,
-      DatePickerWidget = widgetComponents.DatePickerWidget;
+      DatePickerWidget = widgetComponents.DatePickerWidget,
+      DateTimePickerWidget = widgetComponents.DateTimePickerWidget,
+      TimePickerWidget = widgetComponents.TimePickerWidget,
+      RadioWidget = widgetComponents.RadioWidget,
+      CheckboxesWidget = widgetComponents.CheckboxesWidget;
   var temp = {
     render: function render() {
       return null;
@@ -12159,17 +12493,14 @@
     formats: {
       color: temp,
       // antdv1.x没有colorPicker这个组件
-      time: temp,
-      // 20:20:39+00:00
+      time: TimePickerWidget,
       date: DatePickerWidget,
-      // 2018-11-13
-      'date-time': temp // 2018-11-13T20:20:39+00:00
-
+      'date-time': DateTimePickerWidget
     },
     common: {
       select: SelectWidget,
-      radioGroup: temp,
-      checkboxGroup: temp
+      radioGroup: RadioWidget,
+      checkboxGroup: CheckboxesWidget
     },
     widgetComponents: widgetComponents
   };

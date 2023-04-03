@@ -11,7 +11,11 @@ const {
     InputNumberWidget,
     SwitchWidget,
     SelectWidget,
-    DatePickerWidget
+    DatePickerWidget,
+    DateTimePickerWidget,
+    TimePickerWidget,
+    RadioWidget,
+    CheckboxesWidget
 } = widgetComponents;
 
 const temp = {
@@ -29,14 +33,14 @@ export default {
     },
     formats: {
         color: temp, // antdv1.x没有colorPicker这个组件
-        time: temp, // 20:20:39+00:00
-        date: DatePickerWidget, // 2018-11-13
-        'date-time': temp, // 2018-11-13T20:20:39+00:00
+        time: TimePickerWidget,
+        date: DatePickerWidget,
+        'date-time': DateTimePickerWidget,
     },
     common: {
         select: SelectWidget,
-        radioGroup: temp,
-        checkboxGroup: temp,
+        radioGroup: RadioWidget,
+        checkboxGroup: CheckboxesWidget,
     },
     widgetComponents
 };

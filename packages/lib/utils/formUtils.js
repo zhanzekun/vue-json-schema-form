@@ -175,6 +175,7 @@ export function getUiOptions({
             } else {
                 // 字符串 ISO 时间
                 spec.isNumberValue = !(schema.type === 'string');
+                spec.timeUnit = schema.unit === 's' ? 's' : 'ms';  // 对于时间来说，时间戳默认单位ms。
             }
         }
     }

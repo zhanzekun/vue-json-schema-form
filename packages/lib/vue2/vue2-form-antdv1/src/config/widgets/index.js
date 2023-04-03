@@ -7,13 +7,21 @@ import InputNumberWidget from './InputNumberWidget';
 import SwitchWidget from './SwitchWidget'
 import SelectWidget from './SelectWidget'
 import DatePickerWidget from './DatePickerWidget'
+import DateTimePickerWidget from './DateTimePickerWidget'
+import TimePickerWidget from './TimePickerWidget'
+import RadioWidget from './RadioWidget'
+import CheckboxesWidget from './CheckboxesWidget'
 
 const widgetComponents = {
   InputWidget,
   InputNumberWidget,
   SwitchWidget,
   SelectWidget,
-  DatePickerWidget
+  DatePickerWidget,
+  DateTimePickerWidget,
+  TimePickerWidget,
+  RadioWidget,
+  CheckboxesWidget
 };
 
 export default widgetComponents;
